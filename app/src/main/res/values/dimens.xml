@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Notification styles -->
+    <dimen name="preview_notification_corner_radius">24dp</dimen>
+
+    <!-- Weather styles padding-->
+    <dimen name="widget_date_box_padding_hor">12dp</dimen>
+    <dimen name="widget_date_box_padding_ver">8dp</dimen>
+    <dimen name="q_nowplay_pill_padding_hor">17.0sp</dimen>
+    <dimen name="q_nowplay_pill_padding_ver">8.0sp</dimen>
+
+    <!-- Accent Date styles padding-->
+    <dimen name="widget_date_accent_box_padding_hor">10dp</dimen>
+    <dimen name="widget_date_accent_box_padding_ver">6dp</dimen>
+
+    <!-- Lockscreen Widgets Dimens -->
+    <dimen name="kg_widget_margin_vertical">10dp</dimen>
+    <dimen name="kg_widget_margin_bottom">6dp</dimen>
+    <dimen name="kg_widgets_margin_horizontal">12dp</dimen>
+    <dimen name="kg_widgets_main_margin_start">12dp</dimen>
+    <dimen name="kg_widgets_main_margin_end">12dp</dimen>
+    <dimen name="kg_widget_circle_size">68dp</dimen>
+    <dimen name="kg_widgets_icon_padding">18dp</dimen>
+    <dimen name="kg_main_widgets_icon_padding">20dp</dimen>
+    <dimen name="kg_widget_main_height">88dp</dimen>
+    <dimen name="kg_widget_main_width">160dp</dimen>
+
+    <!-- Weather Activity -->
+    <dimen name="activity_forecast_image_size">38dp</dimen>
+    <dimen name="activity_actions_image_size">36dp</dimen>
+    <dimen name="activity_city_side_margin">64dp</dimen>
+    <dimen name="current_height">150dp</dimen>
+    <dimen name="text_line_height">60dp</dimen>
+    <dimen name="forecast_text_size">16sp</dimen>
+    <dimen name="forecast_text_size_small">14sp</dimen>
+    <dimen name="header_text_size">28sp</dimen>
+    <dimen name="medium_text_size">20sp</dimen>
+    <dimen name="big_text_size">60sp</dimen>
+
+    <dimen name="screen_preview_width">176dp</dimen>
+    <dimen name="clock_carousel_item_margin">16dp</dimen>
+    <dimen name="clock_carousel_item_card_width">100dp</dimen>
+    <dimen name="clock_carousel_item_card_height">108dp</dimen>
+    <dimen name="clock_carousel_guideline_margin">100dp</dimen>
+    <dimen name="screen_preview_section_vertical_space">16dp</dimen>
+    <dimen name="preview_card_padding">20dp</dimen>
+
+</resources>

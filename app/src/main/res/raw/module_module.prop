@@ -1,0 +1,6 @@
+id=IconBro
+name=IconBro
+version={{VERSION_NAME}}
+versionCode={{VERSION_CODE}}
+author=DrDisagree
+description=Systemless module for IconBro. {{APP_MOTO}}.
