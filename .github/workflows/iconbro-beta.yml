@@ -22,17 +22,17 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'
           cache: gradle
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Install Android SDK packages
         run: sdkmanager "platforms;android-36" "platforms;android-36-ext1" "build-tools;36.0.0"
@@ -46,10 +46,10 @@ jobs:
       - name: Lint
         run: ./gradlew --no-daemon lintDebug
 
-      - name: Build release APK (debug key unless project secrets are configured)
+      - name: Build release APK
         run: ./gradlew --no-daemon assembleRelease
 
-      - name: Validate APK, package, SDK metadata, signature and checksum
+      - name: Validate APK and checksum
         id: validate
         shell: bash
         run: |
@@ -74,7 +74,7 @@ jobs:
           test "$TARGET_SDK" = "34"
           "$APKSIGNER" verify --verbose "$APK"
           mkdir -p dist
-          cp "$APK" "dist/IconBro-Android14-Beta.apk"
+          cp "$APK" dist/IconBro-Android14-Beta.apk
           (cd dist && sha256sum IconBro-Android14-Beta.apk > SHA256SUMS.txt)
           cat dist/SHA256SUMS.txt
 
@@ -86,7 +86,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish GitHub Pre-release for Beta tag
+      - name: Publish GitHub Beta pre-release
         if: startsWith(github.ref, 'refs/tags/iconbro-v')
         uses: softprops/action-gh-release@v2
         with:
@@ -95,11 +95,9 @@ jobs:
           prerelease: true
           generate_release_notes: true
           body: |
-            Experimental community fork based on Iconify v8.0.0 (`1aad7e414ade5c5af8a057004ee24dbae366fe26`), compared against v7.3.0 (`ee491e884487959d364f07797c60adcd984ea948`).
+            Experimental community fork based on Iconify v8.0.0 (`1aad7e414ade5c5af8a057004ee24dbae366fe26`) and compared with v7.3.0 (`ee491e884487959d364f07797c60adcd984ea948`).
 
-            Android 14 support is unverified. The v8 system module still explicitly requires SDK 36; do not install its system module on API 34. ROM/vendor/root-framework dependent features may fail. No Moto G24 stock-firmware validation is claimed.
-
-            APK package: `${{ steps.validate.outputs.applicationId }}`; `${{ steps.validate.outputs.minSdk }}`.
+            Android 14 system-modification support is unverified. The v8 module requires SDK 36. Do not install its system module on API 34. Moto G24 stock firmware has not been validated.
           files: |
             dist/IconBro-Android14-Beta.apk
             dist/SHA256SUMS.txt
