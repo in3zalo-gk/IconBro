@@ -22,20 +22,20 @@ jobs:
       contents: write
     steps:
       - name: Checkout source
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
           cache: gradle
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
 
       - name: Install Android SDK packages
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+        run: sdkmanager "platforms;android-36" "platforms;android-36-ext1" "build-tools;36.0.0"
 
       - name: Prepare Gradle
         run: chmod +x ./gradlew
@@ -97,7 +97,7 @@ jobs:
           body: |
             Experimental community fork based on Iconify v8.0.0 (`1aad7e414ade5c5af8a057004ee24dbae366fe26`), compared against v7.3.0 (`ee491e884487959d364f07797c60adcd984ea948`).
 
-            Android 14 support is unverified. The v8 system module still explicitly requires SDK 36; do not install its system module on API 34. ROM/vendor/root-framework dependent features may fail. No Moto G24 stock-firmware validation is claimed.
+            This IconBro fork explicitly enables its onboarding and module installer on Android 14 (API 34) and Android 16 QPR1+ (API 36+). Android 14 remains experimental and ROM/vendor/root-framework dependent; no Moto G24 stock-firmware validation is claimed. Xposed bootloop protection skips hooks after repeated crashes, but does not disable unrelated root modules or all overlays.
 
             APK package: `${{ steps.validate.outputs.applicationId }}`; `${{ steps.validate.outputs.minSdk }}`.
           files: |

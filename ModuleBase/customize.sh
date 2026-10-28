@@ -6,8 +6,10 @@ MAGISKDBPATH="/data/adb/magisk.db"
 checkAndroidVersion() {
   SDK=$(getprop ro.build.version.sdk)
 
-  if [ "$SDK" -lt 36 ]; then
-    ui_print "! Android 16 (SDK 36) or higher is required."
+  # IconBro's Android 14 port is supported on API 34. Preserve the upstream
+  # API 36 minimum for other Android releases not covered by the port.
+  if [ "$SDK" -lt 36 ] && [ "$SDK" -ne 34 ]; then
+    ui_print "! Android 14 (SDK 34) or Android 16 (SDK 36+) is required."
     ui_print "! Detected SDK level: $SDK"
     abort "! Aborting installation."
   fi

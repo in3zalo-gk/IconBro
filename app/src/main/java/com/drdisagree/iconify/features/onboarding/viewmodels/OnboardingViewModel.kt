@@ -96,9 +96,11 @@ class OnboardingViewModel @Inject constructor(
     }
 
     fun startInstallation(skipInstallation: Boolean) {
-        // Iconify v8's system module is explicitly designed for SDK 36+. Do not let
-        // an API 34 device create/install overlays from an unported module base.
-        if (Build.VERSION.SDK_INT < 36) {
+        // Android 14 (API 34) is explicitly enabled for the community port.
+        // Keep other unsupported pre-Android-16 releases blocked.
+        if (Build.VERSION.SDK_INT < 36 &&
+            Build.VERSION.SDK_INT != Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+        ) {
             viewModelScope.launch {
                 _events.emit(
                     InstallationEvent.Error(

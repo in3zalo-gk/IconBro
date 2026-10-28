@@ -1,8 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">IconBro</string>
     <string name="app_motto">IconBro community fork — experimental Android 14 support</string>
-    <string name="android14_experimental_block_title">System changes disabled on this Android version</string>
-    <string name="android14_experimental_block_desc">IconBro is based on Iconify v8, whose system module requires Android 16 (SDK 36). Android 14 support is experimental and has not been backported or tested, so root/system installation is blocked to reduce the risk of a bootloop. The app can be inspected, but do not apply system modifications.</string>
+
+    <!-- Android version guard -->
+    <string name="android14_experimental_block_title">System changes unavailable on this Android version</string>
+    <string name="android14_experimental_block_desc">This build supports system installation on Android 14 (SDK 34) and Android 16 (SDK 36+). Installation is blocked on other Android versions to avoid applying unsupported system modifications.</string>
 
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
