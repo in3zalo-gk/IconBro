@@ -40,8 +40,7 @@ jobs:
           echo "ANDROID_SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
           TOOL="$(find "$SDK_ROOT/cmdline-tools" -type f -path '*/bin/sdkmanager' -print | sort -V | tail -n 1)"
           test -n "$TOOL"
-          yes | "$TOOL" --licenses >/dev/null
-          "$TOOL" "platforms;android-36" "build-tools;36.0.0"
+          "$TOOL" --install "platforms;android-36" "build-tools;36.0.0"
 
       - name: Prepare Gradle
         run: chmod +x ./gradlew
