@@ -911,11 +911,15 @@ class QSLightThemeA14(context: Context) : ModPack(context) {
 
         calculateColors()
 
-        Utils.disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
-
-        if (lightQSHeaderEnabled) {
-            if (!isCurrentlyDark) Utils.enableOverlay(qsLightThemeOverlay)
-            if (dualToneQSEnabled) Utils.enableOverlay(qsDualToneOverlay)
+        if (lightQSHeaderEnabled && !isCurrentlyDark) {
+            Utils.enableOverlay(qsLightThemeOverlay)
+        } else {
+            Utils.disableOverlay(qsLightThemeOverlay)
+        }
+        if (dualToneQSEnabled) {
+            Utils.enableOverlay(qsDualToneOverlay)
+        } else {
+            Utils.disableOverlay(qsDualToneOverlay)
         }
     }
 
