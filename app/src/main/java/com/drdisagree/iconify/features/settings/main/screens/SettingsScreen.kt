@@ -41,8 +41,6 @@ import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.SystemUtils.disableBlur
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.common.Const.GITHUB_REPO
-import com.drdisagree.iconify.data.common.Const.ICONIFY_CROWDIN
-import com.drdisagree.iconify.data.common.Const.TELEGRAM_GROUP
 import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.data.keys.SettingsKey
 import com.drdisagree.iconify.features.common.viewmodels.DynamicResourceViewModel
@@ -152,22 +150,6 @@ fun settingsPreferences(
             title = stringRes(R.string.settings_github_repository_title),
             summary = { stringRes(R.string.settings_github_repository_desc) },
             onClick = { openUrl(it.context, GITHUB_REPO) }
-        )
-
-        action(
-            key = "iconifyTelegram",
-            icon = iconRes(R.drawable.ic_telegram),
-            title = stringRes(R.string.settings_telegram_group_title),
-            summary = { stringRes(R.string.settings_telegram_group_desc) },
-            onClick = { openUrl(it.context, TELEGRAM_GROUP) }
-        )
-
-        action(
-            key = "iconifyTranslate",
-            icon = iconRes(R.drawable.ic_translate),
-            title = stringRes(R.string.settings_translate_title),
-            summary = { stringRes(R.string.settings_translate_desc) },
-            onClick = { openUrl(it.context, ICONIFY_CROWDIN) }
         )
 
         action(

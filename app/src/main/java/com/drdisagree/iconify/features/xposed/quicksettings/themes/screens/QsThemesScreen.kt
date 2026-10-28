@@ -14,6 +14,47 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 
 val qsThemesPreferences = preferenceScreen {
+    category(title = stringRes(R.string.android14_legacy_themes_title)) {
+        switch(
+            key = XposedKey.ANDROID14_BLACK_QS_THEME,
+            title = stringRes(R.string.android14_black_qs_theme),
+            summary = { stringRes(R.string.android14_legacy_theme_desc) },
+        )
+        switch(
+            key = XposedKey.ANDROID14_LIGHT_QS_THEME,
+            title = stringRes(R.string.android14_light_qs_theme),
+            summary = { stringRes(R.string.android14_legacy_theme_desc) },
+        )
+        switch(
+            key = XposedKey.ANDROID14_FLUID_QS_THEME,
+            title = stringRes(R.string.android14_fluid_qs_theme),
+            summary = { stringRes(R.string.android14_legacy_theme_desc) },
+        )
+        switch(
+            key = XposedKey.ANDROID14_DUALTONE_QS_THEME,
+            title = stringRes(R.string.android14_dualtone_qs_theme),
+            isVisible = { it.getBoolean(XposedKey.ANDROID14_LIGHT_QS_THEME) },
+        )
+        switch(
+            key = XposedKey.ANDROID14_FLUID_NOTIFICATION_TRANSPARENCY,
+            title = stringRes(R.string.android14_fluid_notifications),
+            isVisible = { it.getBoolean(XposedKey.ANDROID14_FLUID_QS_THEME) },
+        )
+        switch(
+            key = XposedKey.ANDROID14_FLUID_POWERMENU_TRANSPARENCY,
+            title = stringRes(R.string.android14_fluid_power_menu),
+            isVisible = { it.getBoolean(XposedKey.ANDROID14_FLUID_QS_THEME) },
+        )
+        switch(
+            key = XposedKey.ANDROID14_CUSTOM_QS_TEXT_COLOR,
+            title = stringRes(R.string.android14_custom_qs_text_color),
+            isVisible = {
+                it.getBoolean(XposedKey.ANDROID14_LIGHT_QS_THEME) ||
+                    it.getBoolean(XposedKey.ANDROID14_BLACK_QS_THEME)
+            },
+        )
+    }
+
     category {
         switch(
             key = XposedKey.CUSTOM_QS_THEME,
@@ -125,6 +166,13 @@ fun QsThemesScreen(
 ) {
     PreferenceListener(key = null) { event ->
         when (event.key) {
+            XposedKey.ANDROID14_BLACK_QS_THEME.name,
+            XposedKey.ANDROID14_LIGHT_QS_THEME.name,
+            XposedKey.ANDROID14_FLUID_QS_THEME.name,
+            XposedKey.ANDROID14_DUALTONE_QS_THEME.name,
+            XposedKey.ANDROID14_FLUID_NOTIFICATION_TRANSPARENCY.name,
+            XposedKey.ANDROID14_FLUID_POWERMENU_TRANSPARENCY.name,
+            XposedKey.ANDROID14_CUSTOM_QS_TEXT_COLOR.name,
             XposedKey.CUSTOM_QS_THEME.name,
             XposedKey.ACTIVE_QS_TILE_BACKGROUND_COLOR.name,
             XposedKey.ACTIVE_QS_TILE_ICON_COLOR.name,

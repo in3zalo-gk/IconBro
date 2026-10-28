@@ -193,6 +193,26 @@ class HeaderClock(context: Context) : ModPack(context) {
             XposedKey.HIDE_STATUS_ICONS.name -> updateClockView()
 
             XposedKey.HEADER_CLOCK_EXPANSION_Y.name -> buildHeaderViewExpansion()
+
+            // Keep the API-34-specific header implementation synchronized with v8 settings.
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_SWITCH,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_CENTERED,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_EXPANSION_Y,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_COLOR_SWITCH,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT1,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT2,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT3,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT1,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT2,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_FONT_SWITCH,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_SIDEMARGIN,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_TOPMARGIN,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_STYLE,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING,
+            com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_LANDSCAPE_SWITCH,
+            com.drdisagree.iconify.data.common.Preferences.HIDE_STATUS_ICONS_SWITCH,
+            com.drdisagree.iconify.data.common.Preferences.QSPANEL_HIDE_CARRIER,
+            com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_SWITCH -> updateClockView()
         }
     }
 

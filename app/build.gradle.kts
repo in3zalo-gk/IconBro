@@ -26,8 +26,8 @@ android {
         applicationId = "dev.iconbro"
         minSdk = 34
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1.0-beta.1"
+        versionCode = 2
+        versionName = "0.1.0-beta.2"
         multiDexEnabled = true
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
         buildConfigField("int", "OVERLAY_VERSION_CODE", "4")

@@ -15,6 +15,7 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.MainActivity
 import com.drdisagree.iconify.data.config.RPrefs
+import com.drdisagree.iconify.data.common.Const.RELEASES_API
 import com.drdisagree.iconify.data.keys.SettingsKey
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +38,18 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
 
             if (jsonStr != null) {
                 try {
-                    val latestRelease = JSONObject(jsonStr)
+                    val releases = org.json.JSONArray(jsonStr)
+                    val latestRelease = (0 until releases.length())
+                        .map { releases.getJSONObject(it) }
+                        .firstOrNull { item ->
+                            !item.optBoolean("draft", false) &&
+                                    item.optJSONArray("assets")?.let { assets ->
+                                        (0 until assets.length()).any {
+                                            assets.getJSONObject(it).optString("name")
+                                                .endsWith(".apk", ignoreCase = true)
+                                        }
+                                    } == true
+                        } ?: return Result.success()
                     val tagName = latestRelease.getString("tag_name")
 
                     if (compareVersions(tagName, BuildConfig.VERSION_NAME)) {
@@ -57,20 +69,27 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
     }
 
     private fun compareVersions(latestTag: String, currentVersion: String): Boolean {
-        val regex = "v?(\\d+\\.\\d+\\.\\d+)".toRegex()
-        val latestMatch = regex.find(latestTag)?.groupValues?.get(1) ?: return false
-        val currentMatch = regex.find(currentVersion)?.groupValues?.get(1) ?: return false
-
-        val latestParts = latestMatch.split(".").map { it.toIntOrNull() ?: 0 }
-        val currentParts = currentMatch.split(".").map { it.toIntOrNull() ?: 0 }
-
-        for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
-            val l = latestParts.getOrNull(i) ?: 0
-            val c = currentParts.getOrNull(i) ?: 0
-            if (l > c) return true
-            if (l < c) return false
+        data class Version(val major: Int, val minor: Int, val patch: Int, val prerelease: Int?)
+        fun parse(value: String): Version? {
+            val match = Regex("(?i)^(?:iconbro-)?v?(\\d+)\\.(\\d+)\\.(\\d+)(?:[-.]?(?:beta|alpha|rc)[-.]?(\\d+))?.*$")
+                .matchEntire(value.trim()) ?: return null
+            return Version(
+                match.groupValues[1].toIntOrNull() ?: return null,
+                match.groupValues[2].toIntOrNull() ?: return null,
+                match.groupValues[3].toIntOrNull() ?: return null,
+                match.groupValues[4].takeIf { it.isNotEmpty() }?.toIntOrNull()
+            )
         }
-        return false
+        val latest = parse(latestTag) ?: return false
+        val current = parse(currentVersion) ?: return false
+        val base = compareValuesBy(latest, current, Version::major, Version::minor, Version::patch)
+        if (base != 0) return base > 0
+        return when {
+            latest.prerelease == null && current.prerelease != null -> true
+            latest.prerelease != null && current.prerelease == null -> false
+            latest.prerelease != null && current.prerelease != null -> latest.prerelease > current.prerelease
+            else -> false
+        }
     }
 
     private fun isGoodNetworkAvailable(): Boolean {
@@ -89,7 +108,7 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
             var bufferedReader: BufferedReader? = null
 
             try {
-                val url = URL("https://api.github.com/repos/Mahmud0808/Iconify/releases/latest")
+                val url = URL(RELEASES_API)
                 urlConnection = url.openConnection() as HttpURLConnection
                 urlConnection.connect()
 

@@ -59,6 +59,8 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.common.LocalSettings
+import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.data.keys.SettingsKey
 import com.drdisagree.iconify.core.ui.components.dialogs.ErrorDialog
 import com.drdisagree.iconify.core.ui.components.dialogs.InstallationDialog
 import com.drdisagree.iconify.core.ui.components.extensions.customClickable
@@ -83,6 +85,7 @@ fun OnboardingScreen(
     val context = LocalContext.current
     val activity = LocalActivity.current
     val settings = LocalSettings.current
+    val prefController = LocalPreferenceController.current
     val configuration = LocalConfiguration.current
     val locale = configuration.locales[0]
     val numberFormat = remember(locale) { NumberFormat.getInstance(locale) }
@@ -276,6 +279,21 @@ fun OnboardingScreen(
                             modifier = Modifier.padding(horizontal = 10.dp)
                         )
                     }
+                }
+
+                TextButton(
+                    onClick = withHaptic {
+                        prefController.setBoolean(SettingsKey.ONBOARDING_COMPLETED, true)
+                        prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
+                        navController.navigate(NavRoutes.MainGraph.Home.Root) {
+                            popUpTo(NavRoutes.Onboarding) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    },
+                    enabled = !installationProgressRunning,
+                    modifier = Modifier.padding(start = 8.dp)
+                ) {
+                    Text(stringResource(R.string.open_home_without_install))
                 }
 
                 Spacer(modifier = Modifier.weight(1f))

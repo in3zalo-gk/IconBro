@@ -26,14 +26,6 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     add(
         CreditInfoModel(
             R.drawable.ic_user,
-            "Siavash",
-            context.getString(R.string.info_xposed_desc),
-            "https://t.me/siavash7999",
-        )
-    )
-    add(
-        CreditInfoModel(
-            R.drawable.ic_user,
             "Jai",
             context.getString(R.string.info_shell_desc),
             "https://t.me/Jai_08",
@@ -141,7 +133,6 @@ fun parseTranslators(context: Context): ArrayList<CreditInfoModel> {
         val name = jsonObject.getString("name").replace(Regex("\\s*\\(.*\\)"), "")
         val username = jsonObject.getString("username")
 
-        if (username == "DrDisagree") continue // Skip the main developer
 
         val picture = jsonObject.getString("picture")
         val languagesArray = jsonObject.getJSONArray("languages")

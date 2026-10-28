@@ -1,11 +1,8 @@
 package com.drdisagree.iconify.features.settings.credits.components
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Code
-import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -29,10 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,8 +33,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -55,14 +44,9 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
-import coil3.compose.AsyncImagePainter
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.core.common.LocalPreferenceController
-import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
-import com.drdisagree.iconify.data.keys.SettingsKey
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -71,12 +55,7 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DeveloperIntroCard() {
-    val context = LocalContext.current
-    val settings = LocalSettings.current
     val uriHandler = LocalUriHandler.current
-    val preferenceController = LocalPreferenceController.current
-    val clickCount = remember { mutableIntStateOf(0) }
-    val lastClickTime = remember { mutableLongStateOf(0L) }
 
     val gradient = Brush.linearGradient(
         colorStops = arrayOf(
@@ -106,62 +85,16 @@ fun DeveloperIntroCard() {
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)),
             ) {
-                val showFallbackImage = remember { mutableStateOf(true) }
-
-                AsyncImage(
-                    model = "https://avatars.githubusercontent.com/u/29881338",
-                    contentDescription = "Developer avatar",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) {
-                            if (settings.isPlaygroundUnlocked) return@clickable
-
-                            val currentTime = System.currentTimeMillis()
-                            if (currentTime - lastClickTime.longValue < 500) {
-                                clickCount.intValue++
-                            } else {
-                                clickCount.intValue = 1
-                            }
-                            lastClickTime.longValue = currentTime
-
-                            if (clickCount.intValue >= 7) {
-                                preferenceController.setBoolean(
-                                    SettingsKey.PLAYGROUND_UNLOCKED,
-                                    true
-                                )
-
-                                Toast.makeText(
-                                    context,
-                                    "Unlocked playground",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                clickCount.intValue = 0
-                            }
-                        },
-                    onState = { state ->
-                        showFallbackImage.value = state is AsyncImagePainter.State.Error ||
-                                state is AsyncImagePainter.State.Loading
-                    }
+                Icon(
+                    painter = painterResource(R.drawable.ic_app_icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(56.dp),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
-
-                if (showFallbackImage.value) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_user),
-                        contentDescription = null,
-                        modifier = Modifier.size(56.dp),
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                }
             }
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "DrDisagree",
+                text = "IconBro",
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                 color = onContainer,
             )
@@ -172,7 +105,7 @@ fun DeveloperIntroCard() {
                     .padding(horizontal = 14.dp, vertical = 4.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.lead_developer),
+                    text = stringResource(R.string.fork_project_label),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold,
@@ -192,7 +125,7 @@ fun DeveloperIntroCard() {
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Button(
-                    onClick = { uriHandler.openUri("https://buymeacoffee.com/drdisagree") },
+                    onClick = { uriHandler.openUri("https://github.com/in3zalo-gk/IconBro") },
                     modifier = Modifier.weight(1f),
                     shapes = ButtonDefaults.shapes(),
                     colors = ButtonDefaults.buttonColors(
@@ -200,20 +133,20 @@ fun DeveloperIntroCard() {
                     ),
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Coffee,
+                        imageVector = Icons.Rounded.Code,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = stringResource(R.string.buy_a_coffee),
+                        text = stringResource(R.string.fork_repository_button),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
                     )
                 }
                 OutlinedButton(
-                    onClick = { uriHandler.openUri("https://github.com/Mahmud0808") },
+                    onClick = { uriHandler.openUri("https://github.com/in3zalo-gk/IconBro/issues") },
                     modifier = Modifier.weight(1f),
                     shapes = ButtonDefaults.shapes(),
                     border = BorderStroke(
@@ -231,7 +164,7 @@ fun DeveloperIntroCard() {
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = stringResource(R.string.info_github_title),
+                        text = stringResource(R.string.fork_feedback_button),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),

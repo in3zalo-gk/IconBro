@@ -1,12 +1,16 @@
 # IconBro
 
-Fork comunitário **não oficial** do [Iconify](https://github.com/Mahmud0808/Iconify), com identidade independente e investigação experimental de compatibilidade com Android 14. Não é afiliado nem endossado pelos autores do Iconify.
+[![Unofficial fork](https://img.shields.io/badge/project-unofficial%20community%20fork-blue)](https://github.com/in3zalo-gk/IconBro)
+
+**IconBro is an independent community fork of Iconify**, maintained at [in3zalo-gk/IconBro](https://github.com/in3zalo-gk/IconBro). The repository currently appears as a standalone GitHub repository rather than a GitHub-marked fork; the source lineage and upstream license are documented here. It is not affiliated with or endorsed by the original authors.
+
+Fork comunitário **não oficial** do Iconify, mantido como projeto independente. A base principal é Iconify v8.0.0; implementações Android 14 foram selecionadas da v7.3.0 quando necessário. Os créditos de código e a licença original GPL-3.0 são preservados. Não é afiliado nem endossado pelos autores do projeto original.
 
 > **Aviso importante:** o fluxo de instalação do IconBro foi liberado para Android 14 (API 34), além do Android 16 QPR1/API 36+. A compatibilidade depende da ROM, do root e do LSPosed; ainda não há validação independente neste ambiente. O Iconify possui proteção de bootloop para os hooks: após falhas repetidas, deixa de carregá-los. Isso não garante recuperação de problemas causados por overlays, root ou outros módulos.
 
 ## Situação
 
-- Base principal: Iconify v8.0.0, commit `1aad7e414ade5c5af8a057004ee24dbae366fe26`.
+- Base principal: Iconify v8.0.0 (última versão oficial publicada consultada), commit `1aad7e414ade5c5af8a057004ee24dbae366fe26`.
 - Referência de comparação: Iconify v7.3.0, commit `ee491e884487959d364f07797c60adcd984ea948`.
 - O próprio README upstream direciona Android 12–Android 16 não-QPR para v7.3.0 e Android 16 QPR1+ para v8.0.0; este fork libera experimentalmente o fluxo em API 34.
 - Identidade planejada do APK: `dev.iconbro`; namespace de código upstream é mantido para não quebrar hooks e referências internas. As authorities/permission meteorológicas foram isoladas para coexistência.
@@ -28,7 +32,7 @@ Fork comunitário **não oficial** do [Iconify](https://github.com/Mahmud0808/Ic
 
 ## Baixar um APK Beta pelo GitHub Actions
 
-Depois de publicar este repositório no GitHub e habilitar Actions:
+No [repositório IconBro](https://github.com/in3zalo-gk/IconBro):
 
 1. Abra a aba **Actions** do repositório.
 2. Escolha uma execução concluída com sucesso do workflow **IconBro Android 14 Beta**.

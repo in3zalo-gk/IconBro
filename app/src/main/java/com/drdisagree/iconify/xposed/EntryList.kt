@@ -1,5 +1,12 @@
 package com.drdisagree.iconify.xposed
 
+import android.os.Build
+import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
+import com.drdisagree.iconify.xposed.modules.quicksettings.headerclock.HeaderClockA14
+import com.drdisagree.iconify.xposed.modules.quicksettings.themes.QSBlackThemeA14
+import com.drdisagree.iconify.xposed.modules.quicksettings.themes.QSFluidThemeA14
+import com.drdisagree.iconify.xposed.modules.quicksettings.themes.QSLightThemeA14
+
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
@@ -95,6 +102,13 @@ object EntryList {
         QSTheme::class.java
     )
 
+    private val android14SystemUIModPacks: List<Class<out ModPack>> = listOf(
+        HeaderClockA14::class.java,
+        QSBlackThemeA14::class.java,
+        QSFluidThemeA14::class.java,
+        QSLightThemeA14::class.java
+    )
+
     fun getEntries(packageName: String): ArrayList<Class<out ModPack>> {
         val modPacks = ArrayList<Class<out ModPack>>()
 
@@ -105,8 +119,18 @@ object EntryList {
 
             SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {
-                    modPacks.addAll(systemUIModPacks)
+                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        modPacks.addAll(systemUIModPacks.filterNot { it == HeaderClock::class.java })
+                        modPacks.addAll(android14SystemUIModPacks)
+                    } else {
+                        modPacks.addAll(systemUIModPacks)
+                    }
                 }
+            }
+
+            SETTINGS_PACKAGE -> {
+                // Settings-specific icon hooks from v7 are not ported here; preserve
+                // the common baseline without loading hooks for a different API.
             }
         }
 

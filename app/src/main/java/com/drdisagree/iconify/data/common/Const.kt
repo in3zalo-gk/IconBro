@@ -27,22 +27,11 @@ object Const {
     const val PL_ENHANCED_PACKAGE = "com.drdisagree.pixellauncherenhanced"
 
     // Github repo
-    const val GITHUB_REPO = "https://github.com/Mahmud0808/Iconify"
+    const val GITHUB_REPO = "https://github.com/in3zalo-gk/IconBro"
+    const val RELEASES_API = "https://api.github.com/repos/in3zalo-gk/IconBro/releases?per_page=30"
+    const val RELEASES_PAGE = "https://github.com/in3zalo-gk/IconBro/releases"
 
-    // Telegram group
-    const val TELEGRAM_GROUP = "https://t.me/DrDsProjectsChat"
-
-    // Crowdin
-    const val ICONIFY_CROWDIN = "https://crowdin.com/project/iconify"
-
-    // Parse new update
-    const val LATEST_VERSION_URL =
-        "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json"
-
-    // Parse changelogs
-    const val CHANGELOG_URL = "https://api.github.com/repos/Mahmud0808/Iconify/releases/tags/v"
-
-    // ColorBlender URL
+    // Upstream tools used by some optional integrations, not social links.
     const val COLORBLENDR_URL = "https://github.com/Mahmud0808/ColorBlendr"
     const val PL_ENHANCED_URL = "https://github.com/Mahmud0808/PixelLauncherEnhanced"
 

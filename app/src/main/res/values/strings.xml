@@ -1,5 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">IconBro</string>
+    <string name="fork_project_label">Unofficial community fork</string>
+    <string name="fork_project_desc">Independent Iconify-based project maintained as IconBro. Android 14 compatibility is experimental.</string>
+    <string name="fork_repository_button">Open IconBro on GitHub</string>
+    <string name="fork_feedback_button">Report an issue</string>
+    <string name="open_home_without_install">Open Home without installing</string>
+    <string name="android14_legacy_themes_title">Android 14 legacy QS themes</string>
+    <string name="android14_legacy_theme_desc">Ported from Iconify v7.3.0; Android 14 only. Restart SystemUI after changing.</string>
+    <string name="android14_black_qs_theme">Black QS theme (Android 14)</string>
+    <string name="android14_light_qs_theme">Light QS theme (Android 14)</string>
+    <string name="android14_fluid_qs_theme">Fluid QS theme (Android 14)</string>
+    <string name="android14_dualtone_qs_theme">Dual-tone QS colors</string>
+    <string name="android14_fluid_notifications">Fluid notifications transparency</string>
+    <string name="android14_fluid_power_menu">Fluid power menu transparency</string>
+    <string name="android14_custom_qs_text_color">Custom QS text color (legacy themes)</string>
     <string name="app_motto">IconBro community fork — experimental Android 14 support</string>
 
     <!-- Android version guard -->
@@ -168,12 +182,10 @@
     <string name="settings_disable_everything_title">Disable Everything</string>
     <string name="settings_disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes.</string>
     <string name="settings_section_title_about">About</string>
-    <string name="settings_github_repository_title">Github Repository</string>
-    <string name="settings_github_repository_desc" translatable="false">Mahmud0808/Iconify</string>
-    <string name="settings_telegram_group_title">Telegram Group</string>
-    <string name="settings_telegram_group_desc" translatable="false">\@DrDsProjectsChat</string>
-    <string name="settings_translate_title">Translate Iconify</string>
-    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
+    <string name="settings_github_repository_title">IconBro repository</string>
+    <string name="settings_github_repository_desc" translatable="false">in3zalo-gk/IconBro · Community fork of Iconify</string>
+    <string name="settings_translate_title">Contribute translations</string>
+    <string name="settings_translate_desc">Help improve community translations.</string>
     <string name="settings_credits_title">Credits</string>
     <string name="settings_credits_desc">Thanking those who made this possible.</string>
 
@@ -1082,7 +1094,6 @@
     <string name="info_buttercup_desc">For some lockscreen clock styles.</string>
     <string name="section_title_contributors">Contributors</string>
     <string name="info_contributor_desc">For contributing on github.</string>
-    <string name="info_contributor_desc_2">For assisting me on telegram.</string>
     <string name="total_contributions">Total Contributions: %d</string>
     <string name="section_title_translators">Translators</string>
     <string name="af_translation">Afrikaans translation.</string>
@@ -1214,7 +1225,7 @@
 
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>
-    <string name="new_update_desc">A new version of Iconify is available.</string>
+    <string name="new_update_desc">A new version of IconBro is available.</string>
     <string name="update_notification_channel_name">Updates</string>
     <string name="update_notification_channel_desc">This channel shows notification about the latest updates.</string>
 
@@ -1251,8 +1262,6 @@
     <string name="info_version_title">Version</string>
     <string name="info_github_title">GitHub</string>
     <string name="info_github_desc">Check out github repository.</string>
-    <string name="info_telegram_title">Telegram</string>
-    <string name="info_telegram_desc">Follow to get latest news &amp; updates.</string>
     <string name="opt_applied">- Applied</string>
     <string name="perm_storage_access">Grant storage access first!</string>
     <string name="installing">Installing</string>
@@ -1299,7 +1308,6 @@
     <string name="custom_battery_title">Custom Battery</string>
     <string name="custom_battery_desc">Enable custom battery style</string>
     <string name="toast_message">Toast Message</string>
-    <string name="created_by_drdisagree">Made with \u2764\uFE0E by DrDisagree</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lockscreen_customization_title">Lockscreen Customization</string>
     <string name="lockscreen_customization_desc">Enable lockscreen customizations</string>
@@ -1544,9 +1552,7 @@
     <string name="dsb_portrait_only_desc">Display dual rows in portrait mode only</string>
     <string name="link_to_custom_color_title">Link to Custom Color</string>
     <string name="link_to_custom_color_desc">Use the color selected in Home screen &gt; More &gt; Statusbar</string>
-    <string name="buy_a_coffee">Buy a coffee</string>
-    <string name="developer_intro_desc">Crafting beautiful Android customization experiences. If Iconify brings you joy, a coffee goes a long way! ☕</string>
-    <string name="lead_developer">Lead Developer</string>
+    <string name="developer_intro_desc">IconBro is an unofficial community fork of Iconify, with experimental Android 14 support.</string>
     <string name="pick_a_color">Pick a color</string>
     <string name="section_title_appearance">Appearance</string>
     <string name="section_title_additional_settings">Additional Settings</string>

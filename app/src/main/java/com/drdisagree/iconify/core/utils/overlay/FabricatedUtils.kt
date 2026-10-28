@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.core.utils.overlay
 
 import android.util.TypedValue
+import android.os.Build
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.core.di.ResourceManagerEntryPoint
 import com.drdisagree.iconify.data.common.Resources
@@ -78,8 +79,9 @@ object FabricatedUtils {
         ).exec().out
 
     fun buildAndEnableOverlay(overlay: FabricatedOverlay) {
-        require(overlay.resourceType != FabricatedResourceType.DIMEN) {
-            "Android 14+ does not support dimen fabricated overlays (overlay: ${overlay.overlayName})."
+        require(Build.VERSION.SDK_INT != Build.VERSION_CODES.UPSIDE_DOWN_CAKE ||
+                overlay.resourceType != FabricatedResourceType.DIMEN) {
+            "Android 14 (API 34) does not support dimen fabricated overlays (overlay: ${overlay.overlayName})."
         }
 
         val commands = buildCommands(overlay)
@@ -109,8 +111,9 @@ object FabricatedUtils {
         val shellCommands = mutableListOf<String>()
 
         for (overlay in overlays) {
-            require(overlay.resourceType != FabricatedResourceType.DIMEN) {
-                "Android 14+ does not support dimen fabricated overlays (overlay: ${overlay.overlayName})."
+            require(Build.VERSION.SDK_INT != Build.VERSION_CODES.UPSIDE_DOWN_CAKE ||
+                    overlay.resourceType != FabricatedResourceType.DIMEN) {
+                "Android 14 (API 34) does not support dimen fabricated overlays (overlay: ${overlay.overlayName})."
             }
 
             val commands = buildCommands(overlay)

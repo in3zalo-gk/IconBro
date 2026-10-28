@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.core.utils.ChangelogParser
+import com.drdisagree.iconify.data.common.Const.RELEASES_API
+import com.drdisagree.iconify.data.common.Const.RELEASES_PAGE
 import com.drdisagree.iconify.features.changelog.models.ChangelogData
 import com.drdisagree.iconify.features.settings.appupdates.states.AppUpdatesState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,33 +40,52 @@ class AppUpdatesViewModel @Inject constructor() : ViewModel() {
         uiState = AppUpdatesState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val url = "https://api.github.com/repos/Mahmud0808/Iconify/releases/latest"
-                val jsonText = URL(url).readText()
-                val json = JSONObject(jsonText)
+                val jsonText = URL(RELEASES_API).readText()
+                val releases = org.json.JSONArray(jsonText)
+                val release = (0 until releases.length())
+                    .map { releases.getJSONObject(it) }
+                    .firstOrNull { item ->
+                        !item.optBoolean("draft", false) &&
+                                item.optJSONArray("assets")?.let { assets ->
+                                    (0 until assets.length()).any {
+                                        assets.getJSONObject(it).optString("name")
+                                            .endsWith(".apk", ignoreCase = true)
+                                    }
+                                } == true
+                    }
+                if (release == null) {
+                    uiState = AppUpdatesState.UpToDate(
+                        currentVersion = BuildConfig.VERSION_NAME.removePrefix("v"),
+                        latestVersion = BuildConfig.VERSION_NAME.removePrefix("v")
+                    )
+                    return@launch
+                }
+                val json = release
                 val tagName = json.getString("tag_name")
 
                 if (compareVersions(tagName, BuildConfig.VERSION_NAME)) {
                     val changelog = ChangelogParser.parseReleaseChangelog(json)
-                    var downloadUrl = "https://github.com/Mahmud0808/Iconify/releases/latest"
+                    var downloadUrl = RELEASES_PAGE
                     if (json.has("assets")) {
                         val assets = json.getJSONArray("assets")
-                        if (assets.length() > 0) {
-                            downloadUrl = assets.getJSONObject(0).getString("browser_download_url")
-                        }
+                        val apk = (0 until assets.length())
+                            .map { assets.getJSONObject(it) }
+                            .firstOrNull { it.optString("name").endsWith(".apk", ignoreCase = true) }
+                        if (apk != null) downloadUrl = apk.getString("browser_download_url")
                     }
                     lastVersionName = tagName
                     lastChangelog = changelog
                     lastDownloadUrl = downloadUrl
 
                     uiState = AppUpdatesState.UpdateAvailable(
-                        versionName = tagName.removePrefix("v"),
+                        versionName = tagName.removePrefix("iconbro-").removePrefix("v"),
                         changelog = changelog,
                         downloadUrl = downloadUrl
                     )
                 } else {
                     uiState = AppUpdatesState.UpToDate(
                         currentVersion = BuildConfig.VERSION_NAME.removePrefix("v"),
-                        latestVersion = tagName.removePrefix("v")
+                        latestVersion = tagName.removePrefix("iconbro-").removePrefix("v")
                     )
                 }
             } catch (_: Exception) {
@@ -134,7 +155,7 @@ class AppUpdatesViewModel @Inject constructor() : ViewModel() {
 
                 if (lastChangelog != null) {
                     uiState = AppUpdatesState.UpdateAvailable(
-                        versionName = lastVersionName.removePrefix("v"),
+                        versionName = lastVersionName.removePrefix("iconbro-").removePrefix("v"),
                         changelog = lastChangelog!!,
                         downloadUrl = lastDownloadUrl
                     )
@@ -152,19 +173,26 @@ class AppUpdatesViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun compareVersions(latestTag: String, currentVersion: String): Boolean {
-        val regex = "v?(\\d+\\.\\d+\\.\\d+)".toRegex()
-        val latestMatch = regex.find(latestTag)?.groupValues?.get(1) ?: return false
-        val currentMatch = regex.find(currentVersion)?.groupValues?.get(1) ?: return false
-
-        val latestParts = latestMatch.split(".").map { it.toIntOrNull() ?: 0 }
-        val currentParts = currentMatch.split(".").map { it.toIntOrNull() ?: 0 }
-
-        for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
-            val l = latestParts.getOrNull(i) ?: 0
-            val c = currentParts.getOrNull(i) ?: 0
-            if (l > c) return true
-            if (l < c) return false
+        data class Version(val major: Int, val minor: Int, val patch: Int, val prerelease: Int?)
+        fun parse(value: String): Version? {
+            val match = Regex("(?i)^(?:iconbro-)?v?(\\d+)\\.(\\d+)\\.(\\d+)(?:[-.]?(?:beta|alpha|rc)[-.]?(\\d+))?.*$")
+                .matchEntire(value.trim()) ?: return null
+            return Version(
+                match.groupValues[1].toIntOrNull() ?: return null,
+                match.groupValues[2].toIntOrNull() ?: return null,
+                match.groupValues[3].toIntOrNull() ?: return null,
+                match.groupValues[4].takeIf { it.isNotEmpty() }?.toIntOrNull()
+            )
         }
-        return false
+        val latest = parse(latestTag) ?: return false
+        val current = parse(currentVersion) ?: return false
+        val base = compareValuesBy(latest, current, Version::major, Version::minor, Version::patch)
+        if (base != 0) return base > 0
+        return when {
+            latest.prerelease == null && current.prerelease != null -> true
+            latest.prerelease != null && current.prerelease == null -> false
+            latest.prerelease != null && current.prerelease != null -> latest.prerelease > current.prerelease
+            else -> false
+        }
     }
 }

@@ -176,6 +176,7 @@ class OnboardingViewModel @Inject constructor(
                     )
                 }
 
+                prefController.setBoolean(SettingsKey.ONBOARDING_COMPLETED, true)
                 _state.emit(InstallationState.Success)
             }
         }
@@ -475,6 +476,7 @@ class OnboardingViewModel @Inject constructor(
                     _events.emit(
                         InstallationEvent.Toast(R.string.one_time_reboot_needed)
                     )
+                    prefController.setBoolean(SettingsKey.ONBOARDING_COMPLETED, true)
                     _state.emit(InstallationState.Success)
                 } else {
                     _events.emit(
@@ -487,6 +489,7 @@ class OnboardingViewModel @Inject constructor(
                 _events.emit(
                     InstallationEvent.Toast(R.string.one_time_reboot_needed)
                 )
+                prefController.setBoolean(SettingsKey.ONBOARDING_COMPLETED, true)
                 _state.emit(InstallationState.Success)
             }
         } else {

@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.ChangelogParser
+import com.drdisagree.iconify.data.common.Const.RELEASES_API
+import com.drdisagree.iconify.data.common.Const.GITHUB_REPO
 import com.drdisagree.iconify.features.changelog.models.ChangelogData
 import com.drdisagree.iconify.features.changelog.states.ChangelogState
 import kotlinx.coroutines.Dispatchers
@@ -35,24 +37,25 @@ class ChangelogViewModel : ViewModel() {
     }
 
     private fun loadReleaseChangelog() {
-        val url =
-            "https://api.github.com/repos/Mahmud0808/Iconify/releases/latest"
-
-        val json = JSONObject(URL(url).readText())
-        val parsed = ChangelogParser.parseReleaseChangelog(json)
+        val releases = org.json.JSONArray(URL(RELEASES_API).readText())
+        val release = (0 until releases.length())
+            .map { releases.getJSONObject(it) }
+            .firstOrNull { item -> !item.optBoolean("draft", false) }
+            ?: throw IllegalStateException("No published IconBro release")
+        val parsed = ChangelogParser.parseReleaseChangelog(release)
 
         uiState = ChangelogState.Success(parsed)
     }
 
     private fun loadDebugChangelog() {
-        val releaseJson = URL(
-            "https://api.github.com/repos/Mahmud0808/Iconify/releases/latest"
-        ).readText()
-
-        val baseTag = JSONObject(releaseJson).getString("tag_name")
+        val releases = org.json.JSONArray(URL(RELEASES_API).readText())
+        val baseTag = (0 until releases.length())
+            .map { releases.getJSONObject(it) }
+            .firstOrNull { item -> !item.optBoolean("draft", false) }
+            ?.getString("tag_name") ?: throw IllegalStateException("No published IconBro release")
 
         val compareUrl =
-            "https://api.github.com/repos/Mahmud0808/Iconify/compare/$baseTag...HEAD"
+            "https://api.github.com/repos/in3zalo-gk/IconBro/compare/$baseTag...HEAD"
 
         val compareJson = URL(compareUrl).readText()
         val commits = JSONObject(compareJson).getJSONArray("commits")

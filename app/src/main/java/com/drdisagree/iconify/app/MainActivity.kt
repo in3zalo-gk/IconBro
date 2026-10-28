@@ -172,11 +172,8 @@ class MainActivity : ComponentActivity() {
             }
 
             val skipOnboarding = withContext(Dispatchers.IO) {
-                if (!shellReady && !Config.SKIP_TO_HOMEPAGE_FOR_TESTING) {
-                    false
-                } else {
-                    Config.shouldSkipOnboarding(prefController = prefController)
-                }
+                prefController.getBoolean(SettingsKey.ONBOARDING_COMPLETED) ||
+                    (shellReady && Config.shouldSkipOnboarding(prefController = prefController))
             }
 
             UpdateScheduler.scheduleUpdates(applicationContext)

@@ -157,6 +157,16 @@ enum class XposedKey(override val default: Any?) : Key {
     QS_ROW_LANDSCAPE(2f),
     QS_COLUMN_LANDSCAPE(8f),
 
+    // Android 14 legacy Quick Settings themes
+    ANDROID14_BLACK_QS_THEME(false),
+    ANDROID14_LIGHT_QS_THEME(false),
+    ANDROID14_FLUID_QS_THEME(false),
+    ANDROID14_DUALTONE_QS_THEME(false),
+    ANDROID14_FLUID_NOTIFICATION_TRANSPARENCY(false),
+    ANDROID14_FLUID_POWERMENU_TRANSPARENCY(false),
+    ANDROID14_CUSTOM_QS_TEXT_COLOR(false),
+    ANDROID14_OP_QS_HEADER(false),
+
     // Quick Settings - Themes
     CUSTOM_QS_THEME(false),
     ACTIVE_QS_TILE_BACKGROUND_COLOR("#FFFFFF"),

@@ -22,6 +22,7 @@ enum class SettingsKey(override val default: Any?) : Key {
     RESTART_SYSTEMUI_AFTER_BOOT(false),
     ON_HOME_PAGE(false),
     FIRST_INSTALL(true),
+    ONBOARDING_COMPLETED(false),
     UPDATE_DETECTED(false),
     XPOSED_ONLY_MODE(false),
     PLAYGROUND_UNLOCKED(false),
